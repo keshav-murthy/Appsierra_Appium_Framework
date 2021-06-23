@@ -1,0 +1,52 @@
+app:
+  android-app-name: android.apk
+  ios-app-name: ios.app
+
+#  This Framework support following platform
+#  platform = {ios, android, browserstack}
+#
+driver-details:
+  verbose: true
+  platform: android
+  protocol: http
+  domain: 127.0.0.1
+  port: 4723
+  serverUrl: http://127.0.0.1:4723/wd/hub
+  listeners:
+    - ConsolePrinterListener
+    - HighlightListener
+
+browserStack:
+  username: keshav_Nd1QkV
+  accessKey: a64y44gXEEJyTMCbe2Jb
+  appUrl: bs://01a39874f3a99ddd574f49919865da68720febc3
+  serverUrl: http://hub.browserstack.com/wd/hub
+  device: Google Pixel 3
+  deviceType: android
+  os-version: "9.0"
+  build: UAT
+  project: mobile-test-automation
+  sessionName: My Second Session
+
+capabilities:
+  android:
+    deviceName: Google Pixel 3
+    platformVersion: 9.0
+#    appPackage: com.wdiodemoapp
+#    appActivity: com.wdiodemoapp.MainActivity
+    appPackage: com.h6ah4i.android.example.advrecyclerview
+    appActivity: com.h6ah4i.android.example.advrecyclerview.launcher.MainActivity
+  IOS:
+    deviceName: Google Pixel 3
+    platformVersion: 9.0
+    bundleId: your_bundle_id
+    wdaLocalPort: add_your_port_here
+    webkitDebugProxyPort: add_proxy_port_here
+
+timeout:
+  implicit: 20
+  explicit: 20
+  poolingInterval: 200
+  page: 40
+  avdLaunchTimeout: 180000
+  new_command_timeout: 20
