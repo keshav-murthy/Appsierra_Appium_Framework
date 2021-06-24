@@ -33,46 +33,4 @@ public class SwipePage extends BasePage {
 	public SwipePage(AppiumDriver driver) {
 		super(driver);
 	}
-
-	public void selectSwipableMin() {
-
-		wait.forElementToBeVisible(swipableMin);
-		click(swipableMin);
-		lOGGER.info("Selecting Swipable minimum from the list");
-	}
-
-	public void selectSwipableBasic() {
-
-		wait.forElementToBeVisible(swipableBasic);
-		click(swipableBasic);
-		lOGGER.info("Selecting Swipable basic from the list");
-	}
-
-	public void selectSwipableLongPress() {
-
-		wait.forElementToBeVisible(swipableLongPress);
-		click(swipableLongPress);
-		lOGGER.info("Selecting Swipable Long Press from the list");
-	}
-
-	public void buttonUnderSwipable() {
-
-		wait.forElementToBeVisible(buttonUnderSwipe);
-		click(buttonUnderSwipe);
-		lOGGER.info("Selecting Button Under Swipe from the list");
-	}
-
-	public void verticalSwipable() {
-
-		wait.forElementToBeVisible(verticalSwipable);
-		click(verticalSwipable);
-		lOGGER.info("Selecting Vertical Swipable from the list");
-	}
-
-	public void viewPagerSwipable() {
-
-		wait.forElementToBeVisible(viewPagerSwipable);
-		click(viewPagerSwipable);
-		lOGGER.info("Selecting View Pager Swipable from the list");
-	}
 }
