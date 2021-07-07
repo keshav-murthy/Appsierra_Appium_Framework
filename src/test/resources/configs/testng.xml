@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Regression" verbose="1">
-    <listeners>
-        <listener class-name="Reports.ExtentReporterNG"/>
-        <listener class-name="listeners.Listeners"/>
-    </listeners>
-    <test name="all-test">
-        <packages>
-            <package name="com.appsierra"></package>
-        </packages>
-    </test>
-    <!-- Parameters that need to be set from commandline -->
-    <!--    <parameter name="config.file" value="${config.file}"/>-->
+<suite name="Regression" verbose="1" parallel="tests" thread-count="2">
+	<listeners>
+		<listener class-name="Reports.ExtentReporterNG" />
+		<listener class-name="listeners.ListenerTest" />
+	</listeners>
+	<test name="HeaderSection">
+	<parameter name="osVersion" value="8.1"></parameter>
+	<parameter name="deviceName" value="Nexus_4_API_27"></parameter>
+	<parameter name="port" value="4444"></parameter>
+		<classes>
+			<class name="com.appsierra.LoginTest" />
+		</classes>
+	</test>
+	<test name="SwipeSection">
+	<parameter name="osVersion" value="9.0"></parameter>
+	<parameter name="deviceName" value="Pixel_2_API_28"></parameter>
+	<parameter name="port" value="4445"></parameter>
+		<classes>
+			<class name="com.appsierra.FormTest" />
+		</classes>
+	</test>
+	<!-- <packages> <package name="com.appsierra"></package> </packages> <packages> 
+		<package name="com.demoTests"></package> </packages> -->
+
+	<!-- Parameters that need to be set from commandline -->
+	<!-- <parameter name="config.file" value="${config.file}"/> -->
 </suite>

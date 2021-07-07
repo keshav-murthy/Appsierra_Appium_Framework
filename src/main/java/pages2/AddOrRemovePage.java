@@ -85,7 +85,7 @@ public class AddOrRemovePage extends BasePage {
 		click(addHeader);
 		wait.forElementToBeVisible(addFooter);
 		click(addFooter);
-		for (int j = 1; j < items.size() - 1; j++) {
+		for (int j = 1; j < items.size() - 2; j++) {
 			click(items.get(j));
 			wait.forElementToBeVisible(alert);
 			String alertText = alert.getText();

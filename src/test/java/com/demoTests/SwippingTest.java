@@ -23,7 +23,7 @@ public class SwippingTest extends TestBase {
 		swipable.swipeItems();
 	}
 
-	@Test(priority = 2)
+//	@Test(priority = 2)
 	public void verifyBasicSwipe() {
 
 		pages2.homePage().wait.forElementToBeVisible(pages2.homePage().swipe);
@@ -34,7 +34,7 @@ public class SwippingTest extends TestBase {
 		swipable.swipeItems();
 	}
 
-	@Test(priority = 3)
+//	@Test(priority = 3)
 	public void verifyLongPressSwipe() {
 
 		pages2.homePage().wait.forElementToBeVisible(pages2.homePage().swipe);
@@ -45,7 +45,7 @@ public class SwippingTest extends TestBase {
 		swipable.swipeItems();
 	}
 
-	@Test(priority = 4)
+//	@Test(priority = 4)
 	public void verifyButtonUnderSwipe() {
 
 		pages2.homePage().wait.forElementToBeVisible(pages2.homePage().swipe);
@@ -56,7 +56,7 @@ public class SwippingTest extends TestBase {
 		swipable.swipeItems();
 	}
 
-	@Test(priority = 5)
+//	@Test(priority = 5)
 	public void verifyVerticalSwipable() {
 
 		pages2.homePage().wait.forElementToBeVisible(pages2.homePage().swipe);

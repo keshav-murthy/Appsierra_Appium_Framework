@@ -12,7 +12,7 @@ public class LoginTest extends TestBase {
         pages.homePage().loginTabBar.click();
     }
 
-    @Test
+//    @Test
     public void LoginWithValidCred() {
         pages.homePage().wait.forElementToBeVisible(pages.homePage().homeTabBar);
         pages.homePage().loginTabBar.click();

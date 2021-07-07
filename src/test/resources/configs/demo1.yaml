@@ -30,12 +30,12 @@ browserStack:
 
 capabilities:
   android:
-    deviceName: Pixel_4_XL_API_30
-    platformVersion: 11.0
-    appPackage: com.wdiodemoapp
-    appActivity: com.wdiodemoapp.MainActivity
-#    appPackage: com.h6ah4i.android.example.advrecyclerview
-#    appActivity: com.h6ah4i.android.example.advrecyclerview.launcher.MainActivity
+    deviceName: Google Pixel 3
+    platformVersion: 9.0
+#    appPackage: com.wdiodemoapp
+#    appActivity: com.wdiodemoapp.MainActivity
+    appPackage: com.h6ah4i.android.example.advrecyclerview
+    appActivity: com.h6ah4i.android.example.advrecyclerview.launcher.MainActivity
   IOS:
     deviceName: Google Pixel 3
     platformVersion: 9.0

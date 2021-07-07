@@ -14,6 +14,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 
 import commons.ResourceReader;
 import configurations.Configs;
@@ -44,15 +45,18 @@ public class TestBase {
 	public static AppiumDriver driver;
 	public PageObjectManager pages;
 	public PageObjectManager2 pages2;
+	public AppiumServiceBuilder builder = new AppiumServiceBuilder();
 
+	@Parameters({ "deviceName", "osVersion", "port" })
 	@BeforeTest
-	public void invokingAppiumServer() throws IOException {
+	public void invokingAppiumServer(String deviceName, String osVersion, String port) throws IOException {
 		Configs.loadEnvironmentConfiguration();
+//		startServer(port);
 		if (DriverDetails.platform.equalsIgnoreCase("browserstack")) {
 			log.info("Starting Browserstack server");
 		} else {
-			server = getAppiumService();
-			if (!checkIfAppiumServerIsRunning(DriverDetails.port)) {
+			server = getAppiumService(Integer.parseInt(port));
+			if (!checkIfAppiumServerIsRunning(Integer.parseInt(port))) {
 				log.info("appium server is not running locally");
 				log.info("starting server");
 				server.start();
@@ -62,36 +66,45 @@ public class TestBase {
 				log.info("server is already running");
 			}
 		}
-	}
-
-	@BeforeMethod
-	public void initialize() throws Exception {
-		driver = getDriver();
+		driver = getDriver(deviceName, osVersion, port);
 		EventFiringWebDriverFactory.getEventFiringWebDriver(driver, new LoggerEventListener());
 		pages = new PageObjectManager(driver);
 		pages2 = new PageObjectManager2(driver);
 	}
 
-	@AfterMethod
+//	@Parameters({ "deviceName", "osVersion", "port" })
+//	@BeforeMethod
+	public void initialize(String deviceName, String osVersion, String port) throws Exception {
+		driver = getDriver(deviceName, osVersion, port);
+		EventFiringWebDriverFactory.getEventFiringWebDriver(driver, new LoggerEventListener());
+		pages = new PageObjectManager(driver);
+		pages2 = new PageObjectManager2(driver);
+	}
+
+//	@AfterMethod
 	public void tearDown() throws Exception {
 		MyScreenRecorder.stopRecording();
 		log.info("closing driver");
 		driver.closeApp();
-		driver.quit();
-		driver = null;
+//		driver.close();
+//		driver.quit();
+//		driver = null;
 	}
 
 	@AfterTest
-	public void stopAppiumServer() {
+	public void stopAppiumServer() throws Exception {
 		if (DriverDetails.platform.equalsIgnoreCase("browserstack")) {
 			log.info("Stopping browserstack session");
 		} else {
 			server.stop();
 			log.info("stopped server");
 		}
+		MyScreenRecorder.stopRecording();
+		log.info("closing driver");
+		driver.closeApp();
 	}
 
-	public AppiumDriver getDriver() {
+	public AppiumDriver getDriver(String deviceName, String platformVersion, String port) {
 		if (driver != null) {
 			return driver;
 		}
@@ -100,14 +113,14 @@ public class TestBase {
 		switch (DriverDetails.platform.toLowerCase()) {
 		case "android":
 			desiredCapabilities.setCapability("automationName", "Appium");
-			desiredCapabilities.setCapability("device", AndroidCapability.deviceName);
-			desiredCapabilities.setCapability("platformVersion", AndroidCapability.platformVersion);
+			desiredCapabilities.setCapability("device", deviceName);
+			desiredCapabilities.setCapability("platformVersion", platformVersion);
 			desiredCapabilities.setCapability("appPackage", AndroidCapability.appPackage);
 			desiredCapabilities.setCapability("appActivity", AndroidCapability.appActivity);
 			desiredCapabilities.setCapability("app", appPath(AppDetails.androidAppName));
 			desiredCapabilities.setCapability("avdLaunchTimeout", Timeout.avdLaunchTimeout);
 			try {
-				driver = new AndroidDriver(new URL(DriverDetails.serverUrl), desiredCapabilities);
+				driver = new AndroidDriver(new URL("http://127.0.0.1:" + port + "/wd/hub"), desiredCapabilities);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
@@ -167,14 +180,27 @@ public class TestBase {
 		return isAppiumServerRunning;
 	}
 
-	public AppiumDriverLocalService getAppiumService() {
+	public AppiumDriverLocalService getAppiumService(int port) {
 		log.info("collecting appium services");
 		return AppiumDriverLocalService.buildService(new AppiumServiceBuilder().withIPAddress(DriverDetails.domain)
-				.usingPort(DriverDetails.port).withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-				.withCapabilities(desiredCapabilities).withArgument(GeneralServerFlag.LOG_LEVEL, "error"));
+				.usingPort(port).withArgument(GeneralServerFlag.SESSION_OVERRIDE).withCapabilities(desiredCapabilities)
+				.withArgument(GeneralServerFlag.LOG_LEVEL, "error"));
 	}
 
 	public static String appPath(String appName) {
 		return new ResourceReader().getPathToFile("apps/" + appName);
+	}
+
+	public void startServer(String port) {
+
+		builder = new AppiumServiceBuilder();
+		builder.withIPAddress("127.0.0.1");
+		builder.usingPort(Integer.parseInt(port));
+//		builder.withCapabilities(desiredCapabilities);
+//		builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
+//		builder.withArgument(GeneralServerFlag.LOG_LEVEL, "error");
+
+		server = AppiumDriverLocalService.buildService(builder);
+		server.start();
 	}
 }
